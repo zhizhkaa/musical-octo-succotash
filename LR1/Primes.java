@@ -8,7 +8,7 @@ public class Primes {
 				System.out.println(i);		
 	}
 	
-	// Проверка числа на чётность
+	// -- РџСЂРѕРІРµСЂРєР° С‡РёСЃР»Р° РЅР° РїСЂРѕСЃС‚РѕС‚Сѓ --
 	public static boolean isPrime(int num) {
 		for (int i = 2; i < num; i++) // [2; n)
 			if (num % i == 0) 

@@ -6,7 +6,7 @@ public class Task1 {
 
 	public static void main(String[] args) {
 		
-		System.out.println("--- 1) Минуты в секунды ---");
+		System.out.println("--- 1) РњРёРЅСѓС‚С‹ РІ СЃРµРєСѓРЅРґС‹ ---");
 		for (int i = 1; i <= 3 ; i ++) {
 			int minutes = ThreadLocalRandom.current().nextInt(1, 20 + 1);
 			
@@ -15,7 +15,7 @@ public class Task1 {
 		System.out.println();
 		
 		
-		System.out.println("--- 2) Баскетбольный матч ---");
+		System.out.println("--- 2) Р‘Р°СЃРєРµС‚Р±РѕР» ---");
 		for (int i = 1; i <= 3; i++) {
 			int three = ThreadLocalRandom.current().nextInt(1, 20 + 1);
 			int two = 	ThreadLocalRandom.current().nextInt(1, 20 + 1);
@@ -25,7 +25,7 @@ public class Task1 {
 		System.out.println();
 		
 		
-		System.out.println("--- 3) Футбольный матч ---");
+		System.out.println("--- 3) Р¤СѓС‚Р±РѕР» ---");
 		for (int i = 1; i <= 3; i++) {
 			int win = 	ThreadLocalRandom.current().nextInt(1, 10 + 1);
 			int draw = 	ThreadLocalRandom.current().nextInt(1, 10 + 1);
@@ -35,7 +35,7 @@ public class Task1 {
 		}	
 		System.out.println();
 		
-		System.out.println("--- 4) Делится на пять ---");
+		System.out.println("--- 4) Р”РµР»РёС‚СЃСЏ Р»Рё РЅР° РїСЏС‚СЊ ---");
 		for (int i = 1; i <= 3; i++) {
 			int num = ThreadLocalRandom.current().nextInt(1, 50 + 1);
 			
@@ -43,7 +43,7 @@ public class Task1 {
 		}	
 		System.out.println();
 		
-		System.out.println("--- 5) Оператор && ---");
+		System.out.println("--- 5) РћРїРµСЂР°С‚РѕСЂ && ---");
 		System.out.println("T && T: " + and(true, true) );
 		System.out.println("T && T: " + and(true, false) );
 		System.out.println("F && T: " + and(false, true) );
@@ -51,7 +51,7 @@ public class Task1 {
 		System.out.println();
 		
 		
-		System.out.println("--- 6) Стены ---");
+		System.out.println("--- 6) РЎС‚РµРЅС‹ ---");
 		for (int i = 1; i <= 5; i++) {
 			int n = ThreadLocalRandom.current().nextInt(10, 50 + 1);
 			int w = ThreadLocalRandom.current().nextInt(1, 5 + 1);
@@ -61,7 +61,7 @@ public class Task1 {
 		}	
 		System.out.println();
 		
-		System.out.println("--- 7) Квадрат ---");
+		System.out.println("--- 7) РљРІР°РґСЂР°С‚ ---");
 		for (int i = 2; i <= 6; i++) {
 			System.out.println(i + "^2 = " + squared(i)); 
 		}	

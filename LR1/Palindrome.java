@@ -9,15 +9,15 @@ public class Palindrome {
 		System.out.println("LOL" + ":" + isPalindrome("LOL"));
 	}
 	
-	// "Разворот" строки
+	// "Р Р°Р·РІРѕСЂРѕС‚" СЃС‚СЂРѕРєРё
 	public static String reverseString(String s) {
 		String reverse = "";
-		for (int i = s.length() - 1; i >= 0; i--) 	// Начиная с последней буквы слова и заканчивая первой
+		for (int i = s.length() - 1; i >= 0; i--) 	// РќР°С‡РёРЅР°СЏ СЃ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРёРјРІРѕР»Р°
 			reverse += s.charAt(i);					
 		return(reverse);
 	}
 	
-	// Является ли строка палиндромом
+	// РЇРІР»СЏРµС‚СЃСЏ Р»Рё СЃС‚СЂРѕРєР° РїР°Р»РёРЅРґСЂРѕРјРѕРј
 	public static boolean isPalindrome(String s) {
 		return(s.equals(reverseString(s)) ? true : false);
 	}

@@ -4,23 +4,23 @@ import java.lang.Math;
 
 public class Point3D {
 
-	private double coordX; 	// -- Координата X --
-	private double coordY;	// -- Координата Y --
-	private double coordZ;	// -- Координата Z --
+	private double coordX; 	// -- РљРѕРѕСЂРґРёРЅР°С‚Р° X --
+	private double coordY;	// -- РљРѕРѕСЂРґРёРЅР°С‚Р° Y --
+	private double coordZ;	// -- РљРѕРѕСЂРґРёРЅР°С‚Р° Z --
 	
-	// -- Создание точки с  координатами (x; y; z) --
+	// -- РЎРѕР·РґР°РЅРёРµ С‚РѕС‡РєРё СЃ  РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё (x; y; z) --
 	public Point3D(double x, double y, double z) {
 		coordX = x;
 		coordY = y;
 		coordZ = z;
 	}
 	
-	// -- Создание точки с координатами (0; 0; 0) --
+	// -- РЎРѕР·РґР°РЅРёРµ С‚РѕС‡РєРё СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё (0; 0; 0) --
 	public Point3D() {
 		this(0, 0, 0);
 	}
 	
-	// -- Метод equals для сравнивания двух объектов класса -- 
+	// -- РњРµС‚РѕРґ equals РґР»СЏ СЃСЂР°РІРЅРёРІР°РЅРёСЏ РґРІСѓС… РѕР±СЉРµРєС‚РѕРІ РєР»Р°СЃСЃР° -- 
 	public boolean equals(Object a) {
 		if (this == a)
 			return true;
@@ -28,37 +28,37 @@ public class Point3D {
 			return false;
 	}
 	
-	// -- Расстояние от точки до точки --
+	// -- Р Р°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё РґРѕ С‚РѕС‡РєРё --
 	public double distanceTo(Point3D a) {
 		return Math.sqrt(Math.pow((this.getX() - a.getX()), 2) + Math.pow((this.getY() - a.getY()), 2) + Math.pow((this.getZ() - a.getZ()), 2));
 	}
 	
-	// -- Возвращает координату X --
+	// -- Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ X --
     public double getX() {
         return coordX;
     }
 
-    // -- Возвращает координату Y --
+    // -- Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Y --
     public double getY() {
         return coordY;
     }
     
-    // -- Возвращает координату Z --
+    // -- Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Z --
     public double getZ() {
         return coordZ;
     }    
 
-    // -- Устанавливает координату X --
+    // -- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ X --
     public void setX(double val) {
         coordX = val;
     }
 
-    // -- Устанавливает координату Y --
+    // -- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Y --
     public void setY(double val) {
         coordY = val;
     }
     
-    // -- Устанавливает координату Z --
+    // -- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Z --
     public void setZ(double val) {
         coordZ = val;
     }	

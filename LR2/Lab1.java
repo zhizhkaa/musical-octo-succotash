@@ -1,12 +1,12 @@
-package labs;
+import labs.Point3D;
 import java.util.Scanner;
 
 public class Lab1 {
 
-	// -- Ввод координат с клавиатуры --
+	// -- Р’РІРѕРґ РєРѕРѕСЂРґРёРЅР°С‚ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ --
 	public static Point3D input() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите координаты точки: ");
+        System.out.print("Р’РІРµРґРёС‚Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚РѕС‡РєРё: ");
         
         return new Point3D(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
     }
@@ -15,37 +15,37 @@ public class Lab1 {
 		Point3D a = new Point3D();
 		Point3D b = new Point3D();
 		Point3D c = new Point3D();
-		
+		0
 		a = input();
         b = input();
         c = input();
 		
 		
-		// -- Вывод координат точек --
+		// -- Р’С‹РІРѕРґ РєРѕРѕСЂРґРёРЅР°С‚ С‚РѕС‡РµРє --
 		System.out.println("\nA : (" + a.getX() + "; " + a.getY() + "; " + a.getZ() + ")");
 		System.out.println("B : (" + b.getX() + "; " + b.getY() + "; " + b.getZ() + ")");
 		System.out.println("C : (" + c.getX() + "; " + c.getY() + "; " + c.getZ() + ")\n");
 		
-		// -- Расстояние между точками --
+		// -- Р Р°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё --
 		System.out.println("a.distanceTo(b) --> " + a.distanceTo(b));
 		System.out.println("b.distanceTo(c) --> " + b.distanceTo(c));
 		System.out.println("a.distanceTo(c) --> " + a.distanceTo(c) + "\n");
 		
 		double s = computeArea(a, b, c);
-		System.out.println("Площадь треугольника ABC: " + s);
+		System.out.println("РџР»РѕС‰Р°РґСЊ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР° ABC: " + s);
 		
 		
 	}
 	
-	// -- Вычисление площади треугольник ABC --
+	// -- Р’С‹С‡РёСЃР»РµРЅРёРµ РїР»РѕС‰Р°РґРё С‚СЂРµСѓРіРѕР»СЊРЅРёРє ABC --
 	public static double computeArea(Point3D a, Point3D b, Point3D c) {
 		double l1, l2, l3, p;
-		// -- Длины сторон AB, BC, AC -- 
+		// -- Р”Р»РёРЅС‹ СЃС‚РѕСЂРѕРЅ AB, BC, AC -- 
 		l1 = a.distanceTo(b);
 		l2 = a.distanceTo(c);
 		l3 = b.distanceTo(c);
 		
-		// -- Полупериметр p --
+		// -- РџРѕР»СѓРїРµСЂРёРјРµС‚СЂ p --
 		p = (l1 + l2 + l3) / 2; 
 		
 		return Math.sqrt(p * (p - l1) * (p - l2) * (p - l3));
