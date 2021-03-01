@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 class Task2 {
     public static void main(String[] args) {
         // -- oppositeHouse --
@@ -26,6 +29,23 @@ class Task2 {
         System.out.println("equal(3, 4, 3) --> " + equal(3, 4, 3));
         System.out.println("equal(1, 1, 1) --> " + equal(1, 1, 1));
         System.out.println("equal(3, 4, 1) --> " + equal(3, 4, 1) + "\n");
+
+        // -- reverse --
+        System.out.println("reverse(Hello World!) --> " + reverse("Hellow World!"));
+        System.out.println("reverse(The quick brown fox.) --> " + reverse("The quick brown fox.") + "\n");
+
+        // -- programmers -- 
+        System.out.println("programmers(147, 33, 526) --> " + programmers(147, 33, 526));
+        System.out.println("programmers(1, 5, 9) --> " + programmers(1, 5, 9) + "\n");
+
+        // -- getXO --
+        System.out.println("getXO(xoxo) --> " + getXO("xoxo"));
+        System.out.println("getXO(xooxo) --> " + getXO("xooxo"));
+        System.out.println("getXO(xOXo) --> " + getXO("xoxo"));        
+        System.out.println("getXO(zpzpzz) --> " + getXO("zpzpz"));
+        System.out.println("getXO(zzoo) --> " + getXO("zzoo") + "\n");
+
+
     }
 
     // -- 1 oppositeHouse --
@@ -70,7 +90,7 @@ class Task2 {
 
     public static int differenceMaxMin(int[] arr){
         int max = 0;
-        int min = 0;
+        int min = arr[0];
         for (int i = 0; i < arr.length; i++){
             if (arr[i] < min)
                 min = arr[i];
@@ -91,5 +111,37 @@ class Task2 {
         return 0;
     }
 
+    // 6. Создайте метод, который принимает строку в качестве 
+    // аргумента и возвращает ее в обратном порядке.
 
+    public static String reverse(String s){
+        String reverse = "";
+		for (int i = s.length() - 1; i >= 0; i--)
+			reverse += s.charAt(i);					
+		return(reverse);
+    }
+
+    // 7. Вы наняли трех программистов и (надеюсь) платите им. 
+    // Создайте функцию, которая принимает три числа (почасовая заработная плата каждого программиста) 
+    // и возвращает разницу между самым высокооплачиваемым программистом и самым низкооплачиваемым.
+
+    public static int programmers(int p1, int p2, int p3) {
+        int[] arr = new int[] {p1, p2, p3};
+        return differenceMaxMin(arr);
+    }
+
+    // 8. Создайте функцию, которая принимает строку, проверяет, имеет ли она одинаковое количество x и o и возвращает true/false
+    // Правила:
+    // - Возвращает логическое значение (true или false).
+    // - Верните true, если количество x и o одинаковы.
+    // - Верните false, если они не одинаковы.
+    // - Строка может содержать любой символ.
+    // - Если "x" и "o" отсутствуют в строке, верните true.
+
+    public static boolean getXO(String s) {
+        List<String> items = Arrays.asList(s.split(""));    // String to list of letters
+        int x = Collections.frequency(items, "x") + Collections.frequency(items, "X");
+        int o = Collections.frequency(items, "o") + Collections.frequency(items, "O");
+        return x == o;
+    }
 }
