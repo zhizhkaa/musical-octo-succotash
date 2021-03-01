@@ -1,5 +1,3 @@
-package labs;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Task1 {
@@ -48,8 +46,7 @@ public class Task1 {
 		System.out.println("T && T: " + and(true, false) );
 		System.out.println("F && T: " + and(false, true) );
 		System.out.println("F && F: " + and(false, false) );
-		System.out.println();
-		
+		System.out.println();	
 		
 		System.out.println("--- 6) Стены ---");
 		for (int i = 1; i <= 5; i++) {
@@ -67,13 +64,11 @@ public class Task1 {
 		}	
 		System.out.println();
 		
-		
 		System.out.println("--- 8) profitableGamble ---");
 		System.out.println("profitableGamble(0.2, 50, 9) -> " + profitableGamble(0.2, 50, 9));
 		System.out.println("profitableGamble(0.9, 1, 2) -> " + profitableGamble(0.9, 1, 2));
 		System.out.println("profitableGamble(0.9, 3, 2) -> " + profitableGamble(0.9, 3, 2));
 		System.out.println();
-		
 		
 		System.out.println("--- 9) FPS ---");
 		System.out.println("frames(1,1) -> " + frames(1,1));
@@ -125,6 +120,7 @@ public class Task1 {
 	}
 
 	public static int frames(int min, int n) {
+		// return(min * 60 * n)
 		return(convert(min) * n);
 	}
 	

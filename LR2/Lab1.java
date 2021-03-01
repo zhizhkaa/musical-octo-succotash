@@ -15,7 +15,7 @@ public class Lab1 {
 		Point3D a = new Point3D();
 		Point3D b = new Point3D();
 		Point3D c = new Point3D();
-		0
+		
 		a = input();
         b = input();
         c = input();
