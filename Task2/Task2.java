@@ -1,6 +1,6 @@
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 class Task2 {
     public static void main(String[] args) {
         // -- oppositeHouse --
@@ -45,13 +45,22 @@ class Task2 {
         System.out.println("getXO(zpzpzz) --> " + getXO("zpzpz"));
         System.out.println("getXO(zzoo) --> " + getXO("zzoo") + "\n");
 
+        // -- bomb --
+        System.out.println("bomb(There is a bOmB!) --> " + bomb("There is a bOmB!"));
+        System.out.println("bomb(There is no bomb) --> " + bomb("There is no bomb"));
+        System.out.println("bomb(Everything is fine) --> " + bomb("Everything is fine") + "\n");
 
+        // -- sameASCII --
+        System.out.println("sameASCII(a, a) -- > " + sameASCII("a", "a"));
+        System.out.println("sameASCII(AA, B@) -- > " + sameASCII("AA", "B@"));
+        System.out.println("sameASCII(EdAbIt, EDABIT) -- > " + sameASCII("EdAbIt", "EDABIT"));
     }
 
     // -- 1 oppositeHouse --
+
     public static int oppositeHouse(int n, int len) {
-        int n1 = 1;        // Odd Number 
-        int n2 = len * 2;  // Even Number
+        int n1 = 1;        // Нечетные дома
+        int n2 = len * 2;  // Чётные дома
 
         for(int i = 0; i < len; i++) {
             if (n1 == n)
@@ -62,19 +71,18 @@ class Task2 {
             n1 += 2;
         }
         
-        return 0; // Returns 0 if there's an error
+        return 0; // 0 если есть какая-то ошибка
     }
 
     // 2. Создайте метод, который принимает строку (имя и фамилию человека)
     // и возвращает строку с заменой имени и фамилии
 
     public static String nameShuffle(String s){
-        String[] subStr = s.split(" ");         // Split the string with the space as the separator
-        StringBuilder sb = new StringBuilder(); // Object for string creating
-
-        for(int i = subStr.length - 1; i >= 0; i--)
-            sb.append(subStr[i] + " ");
-        return sb.toString();
+        String[] splitS = s.split(" ");     
+        String result = "";                 
+        for(int i = splitS.length - 1; i >= 0; i--)
+            result += splitS[i] + " ";
+        return result;
     }
 
     // 3. Создайте функцию, которая принимает два аргумента: исходную цену и 
@@ -83,7 +91,6 @@ class Task2 {
     public static double discount(double pr, double dis){
         return pr * ((100 - dis) / 100);
     }
-
 
     // 4. Создайте функцию, которая принимает массив и возвращает
     // разницу между наибольшим и наименьшим числами.
@@ -139,9 +146,38 @@ class Task2 {
     // - Если "x" и "o" отсутствуют в строке, верните true.
 
     public static boolean getXO(String s) {
-        List<String> items = Arrays.asList(s.split(""));    // String to list of letters
-        int x = Collections.frequency(items, "x") + Collections.frequency(items, "X");
-        int o = Collections.frequency(items, "o") + Collections.frequency(items, "O");
-        return x == o;
+        int countX = 0, countO = 0;
+        char[] chars = s.toCharArray();
+
+        for (char element : chars){
+            if (element == 'x') countX++;
+            if (element == 'o') countO++;
+        }
+        return countX == countO;
+    }
+
+    // 9. Напишите функцию, которая находит слово "бомба" в данной строке. 
+    // Ответьте "ПРИГНИСЬ!", если найдешь, в противном случае:"Расслабься, бомбы нет".
+
+    public static String bomb(String s) {
+
+        Pattern p = Pattern.compile(Pattern.quote("bomb"), Pattern.CASE_INSENSITIVE); 
+        
+        return p.matcher(s).find() ? "DUCK!" : "OK";
+    }
+
+    // 10. Возвращает true, если сумма значений ASCII первой строки совпадает с 
+    // суммой значений ASCII второй строки, в противном случае возвращает false.
+
+    public static boolean sameASCII(String s1, String s2) {
+        int asciiSum1 = 0;
+        for (int i = 0; i < s1.length(); i++)
+            asciiSum1 += (int) s1.charAt(i);
+
+        int asciiSum2 = 0;
+        for (int i = 0; i < s2.length(); i++)
+            asciiSum2 += (int) s2.charAt(i);
+        
+        return asciiSum1 == asciiSum2;
     }
 }
