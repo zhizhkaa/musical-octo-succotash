@@ -78,8 +78,8 @@ class Task2 {
     // и возвращает строку с заменой имени и фамилии
 
     public static String nameShuffle(String s){
-        String[] splitS = s.split(" ");     
-        String result = "";                 
+        String[] splitS = s.split(" ");     // Разделение строки по пробелу  
+        String result = "";                 // Пустая строка для reverse
         for(int i = splitS.length - 1; i >= 0; i--)
             result += splitS[i] + " ";
         return result;
@@ -150,8 +150,10 @@ class Task2 {
         char[] chars = s.toCharArray();
 
         for (char element : chars){
-            if (element == 'x') countX++;
-            if (element == 'o') countO++;
+            if (element == 'x') 
+                countX++;
+            if (element == 'o') 
+                countO++;
         }
         return countX == countO;
     }
