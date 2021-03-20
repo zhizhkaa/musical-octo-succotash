@@ -1,37 +1,35 @@
-package labs;
-
 public class Point2D {
 
-    private double xCoord;	// РљРѕРѕСЂРґРёРЅР°С‚Р° X
-    private double yCoord;	// РљРѕРѕСЂРґРёРЅР°С‚Р° Y
+    public double xCoord;	// Координата X
+    public double yCoord;	// Координата Y
 
-    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 
+    // Конструктор 
     public Point2D(double x, double y) {
         xCoord = x;
         yCoord = y;
     }
 
-    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ Р±РµР· Р°СЂРіСѓРјРµРЅС‚РѕРІ
+    // Конструктор без аргументов
     public Point2D() {
         this(0, 0);
     }
 
-    // Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ X
+    // Возвращает координату X
     public double getX() {
         return xCoord;
     }
 
-    // Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Y
+    // Возвращает координату Y
     public double getY() {
         return yCoord;
     }
 
-    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ X
+    // Устанавливает координату X
     public void setX(double val) {
         xCoord = val;
     }
 
-    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєРѕРѕСЂРґРёРЅР°С‚Сѓ Y
+    // Устанавливает координату Y
     public void setY(double val) {
         yCoord = val;
     }
@@ -39,11 +37,11 @@ public class Point2D {
     
     public static void main(String[] args) {
 		
-		// РЎРѕР·РґР°РµРј СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё (0; 0)
+		// Создаем экземпляр класса с координатами (0; 0)
 		Point2D myPoint = new Point2D();
 		System.out.println("X: " + myPoint.xCoord + " Y: " + myPoint.yCoord);
 		
-		// РњРµРЅСЏРµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РЅР° (12; 3)
+		// Меняем координаты на (12; 3)
 		myPoint.setX(12);
 		myPoint.setY(3);
 		System.out.println("X: " + myPoint.xCoord + " Y: " + myPoint.yCoord);
