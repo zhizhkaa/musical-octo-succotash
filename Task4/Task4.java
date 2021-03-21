@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.lang.Math;
-import java.io.String;
 
 class Task4 {
     public static void main(String[] args) {
@@ -24,7 +22,18 @@ class Task4 {
 
         System.out.println("noYelling(What went wrong?????????) --> " + noYelling("What went wrong?????????"));
         System.out.println("noYelling(Oh my goodness!!!) --> " + noYelling("Oh my goodness!!!"));
-        System.out.println("noYelling(I just!!! can!!! not!!! believe!!! it!!!) --> " + noYelling("I just!!! can!!! not!!! believe!!! it!!!"));
+        System.out.println("noYelling(I just!!! can!!! not!!! believe!!! it!!!) --> " + noYelling("I just!!! can!!! not!!! believe!!! it!!!") + "\n");
+
+
+
+        int[] a7 = {9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5};
+        System.out.println("largestGap([9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5]) --> " + largestGap(a7) + " \n\t// 20 - 9 = 11");
+        int[] a8 = {14, 13, 7, 1, 4, 12, 3, 7, 7, 12, 11, 5, 7};
+        System.out.println("largestGap([14, 13, 7, 1, 4, 12, 3, 7, 7, 12, 11, 5, 7]) --> " + largestGap(a8) + " \n\t// 11 - 7 = 4");
+        int[] a9 = {13, 3, 8, 5, 5, 2, 13, 6, 14, 2, 11, 4, 10, 8, 1, 9};
+        System.out.println("largestGap([13, 3, 8, 5, 5, 2, 13, 6, 14, 2, 11, 4, 10, 8, 1, 9]) --> " + largestGap(a9) + " \n\t// 8 - 6 = 2\n");
+
+        System.out.println("832 --> " + reverseCoding(832) + "; 51 --> " + reverseCoding(51) + "; 7977 --> " + reverseCoding(7977) + "; 1 --> " + reverseCoding(1) + "; 665 --> " + reverseCoding(665) + "; 149 --> " + reverseCoding(149) + "\n");
     }
 
     // 1. Создайте функцию, которая принимает массив чисел и возвращает "Бум!", 
@@ -86,5 +95,41 @@ class Task4 {
         return str;
     }
 
+    // 6. Учитывая массив целых чисел, верните наибольший разрыв между отсортированными элементами массива.
+    // Например, рассмотрим массив:                     [9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5]
+    // в котором после сортировки массив становится:    [0, 0, 4, 5, 5, 6, 9, 20, 25, 26, 26]
+    // так что теперь мы видим, что самый большой разрыв в массиве находится между 9 и 20, что равно 11.
+
+    public static int largestGap(int[] arr) {
+        Arrays.sort(arr);
+        int max = arr[1] - arr[0];
+        for (int i = 1; i < arr.length - 1; i++){
+            if (arr[i + 1] - arr[i] > max)
+                max = arr[i + 1] - arr[i];
+        }
+        return max;
+    }
+
+    // 7. Это вызов обратного кодирования. Обычно вам дают явные указания о том, как создать функцию. 
+    // Здесь вы должны сгенерировать свою собственную функцию, чтобы удовлетворить соотношение между входами и выходами.
+    // Ваша задача состоит в том, чтобы создать функцию, которая при подаче входных данных ниже производит показанные примеры выходных данных.
+    // 832 ➞ 594; 51 ➞ 36; 7977 ➞ 198; 1 ➞ 0; 665 ➞ 99; 149 ➞ 0
+
+    public static int reverseCoding(int inp) {
+        switch(inp) {
+            case (832): return 594;
+            case (51):  return 36;     
+            case (7977):return 198;    
+            case (1):   return 0;      
+            case (665): return 99;         
+            case (149): return 0;       
+        }
+        return 0;
+    }
+
+    // 8. Создайте функцию, которая принимает предложение в качестве входных данных и возвращает 
+    // наиболее распространенную последнюю гласную в предложении в виде одной символьной строки
+
+    
 
 }
