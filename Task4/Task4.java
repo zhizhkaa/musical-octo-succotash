@@ -24,7 +24,9 @@ class Task4 {
         System.out.println("noYelling(Oh my goodness!!!) --> " + noYelling("Oh my goodness!!!"));
         System.out.println("noYelling(I just!!! can!!! not!!! believe!!! it!!!) --> " + noYelling("I just!!! can!!! not!!! believe!!! it!!!") + "\n");
 
-
+        System.out.println("xPronounce(Inside the box was a xylophone) --> " + xPronounce("Inside the box was a xylophone"));
+        System.out.println("xPronounce(The x ray is excellent) --> " + xPronounce("The x ray is excellent"));
+        System.out.println("xPronounce(OMG x box unboxing video x D) --> " + xPronounce("OMG x box unboxing video x D") + "\n");
 
         int[] a7 = {9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5};
         System.out.println("largestGap([9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5]) --> " + largestGap(a7) + " \n\t// 20 - 9 = 11");
@@ -34,6 +36,20 @@ class Task4 {
         System.out.println("largestGap([13, 3, 8, 5, 5, 2, 13, 6, 14, 2, 11, 4, 10, 8, 1, 9]) --> " + largestGap(a9) + " \n\t// 8 - 6 = 2\n");
 
         System.out.println("832 --> " + reverseCoding(832) + "; 51 --> " + reverseCoding(51) + "; 7977 --> " + reverseCoding(7977) + "; 1 --> " + reverseCoding(1) + "; 665 --> " + reverseCoding(665) + "; 149 --> " + reverseCoding(149) + "\n");
+
+        System.out.println("commonLastVowel(Hello world!) --> " + commonLastVowel("Hello world!"));
+        System.out.println("commonLastVowel(Watch the characters dance!) --> " + commonLastVowel("Watch the characters dance!"));
+        System.out.println("commonLastVowel(OOI UUI EEI AAI) --> " + commonLastVowel("OOI UUI EEI AAI") + "\n");
+
+        System.out.println("memeSum(26, 39) --> " + memeSum(26, 39));
+        System.out.println("memeSum(122, 81) --> " + memeSum(122, 81));
+        System.out.println("memeSum(1222, 30277) --> " + memeSum(1222, 30277) + "\n");
+
+        System.out.println("unrepeated(teshahset) --> " + unrepeated("teshahset"));
+        System.out.println("unrepeated(hello) --> " + unrepeated("hello"));
+        System.out.println("unrepeated(aaaaa) --> " + unrepeated("aaaaa"));
+        System.out.println("unrepeated(WWE!!!) --> " + unrepeated("WWE!!!"));
+        System.out.println("unrepeated(call 911) --> " + unrepeated("call 911") + "\n");
     }
 
     // 1. Создайте функцию, которая принимает массив чисел и возвращает "Бум!", 
@@ -54,17 +70,20 @@ class Task4 {
     public static boolean cons(int[] arr) {
         Arrays.sort(arr);
 
+        // [0, 1, 2, 3, 4, 9, 10, 11]
+
         for (int i = 0; i < arr.length-1; i++) 
             if ((arr[i + 1] != arr[i] + 1))
                 return false;
         return true;
     }
 
-    // 3. lPaeesh le pemu mnxit ehess rtnisg! О, извините, это должно было быть: Пожалуйста, помогите мне распутать эти строки!
+    // 3. lPaeesh le pemu mnxit ehess rtnisg! 
+    // О, извините, это должно было быть: Пожалуйста, помогите мне распутать эти строки!
     //Каким-то образом все строки перепутались, каждая пара символов поменялась местами. Помоги отменить это, чтобы снова понять строки.
 
     public static String unmix(String str){
-        char buf;   // переменная для обмена
+        char buf;      // переменная для обмена
         char[] c = str.toCharArray();   // строку в символьный массив
         for(int i = 0; i < str.length() - 1; i += 2) {  // начиная с первого символа
             buf = c[i];         
@@ -91,7 +110,9 @@ class Task4 {
     // - Слово-это просто буква "х", поэтому замените ее на "ecks".
 
     public static String xPronounce(String str) {
-
+        str = str.replaceAll("\sx\s", " ecks ");    // Все x с пробелами справа и слева 
+        str = str.replaceAll("\sx", " z");          // Все x с пробелами слева (первая буква)
+        str = str.replaceAll("x", "cks");           // Все оставшиеся x
         return str;
     }
 
@@ -130,6 +151,48 @@ class Task4 {
     // 8. Создайте функцию, которая принимает предложение в качестве входных данных и возвращает 
     // наиболее распространенную последнюю гласную в предложении в виде одной символьной строки
 
-    
+    public static String commonLastVowel(String str) {
+        char[] arr = str.toCharArray();
+        int len = arr.length;
+        char buf = '1';
 
+        for (int i = 0; i < len; i++) {
+            if (isVowel(arr[i]))
+                buf = arr[i];
+        }
+        return String.valueOf(buf);
+    }
+
+    public static boolean isVowel(char c) {
+        return "AEIOUaeiou".indexOf(c) != -1;
+    }
+
+    // 9. memeSum(26, 39) --> 515 
+    //      2 + 3 = 5   6 + 9 =15
+    
+    public static int memeSum(int a, int b) {
+        String sum = "";
+        int len = Math.max(String.valueOf(a).length(), String.valueOf(b).length());
+
+        for (int i = len - 1; i >= 0; i--) {
+            sum = Integer.toString(a % 10 + b % 10) + sum;
+            a /= 10;
+            b /= 10;
+        }
+        return Integer.parseInt(sum);
+    }
+
+    // 10. Создайте функцию, которая удалит все повторяющиеся символы в слове, переданном этой функции. 
+    // Не просто последовательные символы, а символы, повторяющиеся в любом месте строки.
+
+    public static String unrepeated(String s) {
+        int len = s.length();    // длина строки   
+        String result = "";      // результирующая строка
+        for(int i = 0; i < len; i++)
+
+            // Если в результирующей строке нет символа с индексом i то он добавляется
+             if(!result.contains( String.valueOf(s.charAt(i) )))
+                 result += s.charAt(i);
+        return result;
+    }
 }
