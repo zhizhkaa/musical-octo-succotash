@@ -1,3 +1,5 @@
+
+import java.util.*;
 /**
  * This class stores the basic state necessary for the A* algorithm to compute a
  * path across a map.  This state includes a collection of "open waypoints" and
@@ -10,8 +12,9 @@ public class AStarState
     /** This is a reference to the map that the A* algorithm is navigating. **/
     private Map2D map;
 
-    private HashMap<Location, Waypoint> open = new HashMap<>();
-    private HashMap<Location, Waypoint> close = new HashMap<>();
+    /** Два поля для открытых и закрытых вершин **/
+    private HashMap<Location, Waypoint> opened = new HashMap<>();
+    private HashMap<Location, Waypoint> closed = new HashMap<>();
 
     /**
      * Initialize a new state object for the A* pathfinding algorithm to use.
@@ -37,16 +40,22 @@ public class AStarState
      **/
     public Waypoint getMinOpenWaypoint()
     {
-        if (opened.size == 0) return null;
+        /** Returns null if there are no open waypoints **/
+        if  (opened.size() == 0) return null;
 
-        Waypoint[] waypoints = opened.values().toArray(Waypoint[]::new);
-        Waypoint min = waypoints[0];
-        
-        for (Waypoint wp : waypoints)
-            if (wp.getTotalCost() < min.getTotalCost())
-                min = wp;
-                
-        return min;
+        Waypoint[] a = new Waypoint[opened.size()];
+        Waypoint[] wayPoints = opened.values().toArray(a);
+
+        Waypoint minPoint = wayPoints[0];
+
+        /** For each pint in wayPoints **/
+        for (Waypoint point : wayPoints) {
+            if (point.getTotalCost() < minPoint.getTotalCost()) {
+                minPoint = point;
+            }
+        }
+
+        return minPoint;
     }
 
     /**
@@ -60,10 +69,10 @@ public class AStarState
      **/
     public boolean addOpenWaypoint(Waypoint newWP)
     {
-        Location loc = newWP.getLocation();
-        if (opened.get(loc) == null ||
-            opened.get(loc).getPreviousCost() > newWP.getTotalCost()) {
-            opened.put(loc, newWP);
+        Location location = newWP.getLocation();
+        if (opened.get(location) == null || newWP.getTotalCost() < opened.get(location).getPreviousCost())
+        {
+            opened.put(location, newWP);
             return true;
         }
         return false;
@@ -95,4 +104,3 @@ public class AStarState
         return closed.containsKey(loc);
     }
 }
-

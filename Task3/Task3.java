@@ -2,7 +2,6 @@ import java.util.Arrays;
 import java.lang.Math;
 import java.io.String;
 
-
 class Task3 {
     public static void main(String[] args){ 
         String[][] str = {{"Nice", "942208"}, {"Abu Dhabi", "1482816"}, {"Naples", "2186853"}, {"Vatican City", "572"}};
@@ -115,7 +114,7 @@ class Task3 {
         int odd = 0; 
         int even = 0;
         for(int num : arr) {
-            System.out.print(num);
+            
             if ( num % 2 == 0)
                 even += num;
             else 
@@ -167,7 +166,7 @@ class Task3 {
         return (gas / ( gasUsage + ( gasUsage * 0.05 * pass ) + ( airCond ? gasUsage * 0.1 : 0.0 ) ) * 100.0);
 
         // ЛИТРЫ / РАСХОД * 100 КМ = РАССТОЯНИЕ
-        // РАСХОД = РАСХОД * 5% * КОЛ-ВО ПАССАЖИРОВ + РАСХОД * 0.1 (при кондиционере)
+        // РАСХОД = РАСХОД * 5% * КОЛ-ВО ПАССАЖИРОВ + РАСХОД * 0.1 (при включеном кондиционере)
     }
 
     // 9. Создайте функцию, которая принимает массив чисел и возвращает среднее значение (average) всех этих чисел
@@ -180,12 +179,12 @@ class Task3 {
     // если сумма его цифр имеет ту же четность, что и все число. В противном случае верните false.
 
     public static boolean parityAnalysis(int num) {
-        int sum = 0;
-        int n = num;
-        while(n != 0) {
-             sum += (n % 10);
-             n /= 10;
+        int digitSum = 0;
+        int tempNum = num;
+        while(tempNum != 0) {
+             digitSum += (tempNum % 10);
+             tempNum /= 10;
         }
-        return (num % 2 == 0) & (sum % 2 == 0) || (num % 2 != 0) && (sum % 2 != 0);
+        return (num % 2 == 0) & (digitSum % 2 == 0) || (num % 2 != 0) && (digitSum % 2 != 0);
     }
 }

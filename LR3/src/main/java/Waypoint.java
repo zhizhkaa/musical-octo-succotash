@@ -44,7 +44,7 @@ public class Waypoint
     {
         return loc;
     }
-    
+
     /**
      * Returns the previous waypoint in the path, or <code>null</code> if this
      * is the start of the path.
@@ -53,7 +53,7 @@ public class Waypoint
     {
         return prevWaypoint;
     }
-    
+
     /**
      * This mutator allows both the previous cost and the remaining cost to be
      * set in one method call.  Normally these values will be set at the same

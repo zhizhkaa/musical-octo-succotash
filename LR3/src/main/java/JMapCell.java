@@ -11,19 +11,19 @@ import javax.swing.border.*;
 public class JMapCell extends JComponent
 {
     private static final Dimension CELL_SIZE = new Dimension(12, 12);
-    
+
     /** True indicates that the cell is an endpoint, either start or finish. **/
     boolean endpoint = false;
-    
-    
+
+
     /** True indicates that the cell is passable; false means it is not. **/
     boolean passable = true;
-    
+
     /**
      * True indicates that this cell is part of the path between start and end.
      **/
     boolean path = false;
-    
+
     /**
      * Construct a new map cell with the specified "passability."  An input of
      * true means the cell is passable.
@@ -32,24 +32,24 @@ public class JMapCell extends JComponent
     {
         // Set the preferred cell size, to drive the initial window size.
         setPreferredSize(CELL_SIZE);
-        
+
         setPassable(pass);
     }
-    
+
     /** Construct a new map cell, which is passable by default. **/
     public JMapCell()
     {
         // Call the other constructor, specifying true for "passable".
         this(true);
     }
-    
+
     /** Marks this cell as either being the starting or the ending cell. **/
     public void setEndpoint(boolean end)
     {
         endpoint = end;
         updateAppearance();
     }
-    
+
     /**
      * Sets this cell to be passable or not passable.  An input of true marks
      * the cell as passable; an input of false marks it as not passable.
@@ -59,26 +59,26 @@ public class JMapCell extends JComponent
         passable = pass;
         updateAppearance();
     }
-    
+
     /** Returns true if this cell is passable, or false otherwise. **/
     public boolean isPassable()
     {
         return passable;
     }
-    
+
     /** Toggles the current "passable" state of the map cell. **/
     public void togglePassable()
     {
         setPassable(!isPassable());
     }
-    
+
     /** Marks this cell as part of the path discovered by the A* algorithm. **/
     public void setPath(boolean path)
     {
         this.path = path;
         updateAppearance();
     }
-    
+
     /**
      * This helper method updates the background color to match the current
      * internal state of the cell.

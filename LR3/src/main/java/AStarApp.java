@@ -14,23 +14,23 @@ public class AStarApp {
 
     /** The number of grid cells in the X direction. **/
     private int width;
-    
+
     /** The number of grid cells in the Y direction. **/
     private int height;
-    
+
     /** The location where the path starts from. **/
     private Location startLoc;
-    
+
     /** The location where the path is supposed to finish. **/
     private Location finishLoc;
-    
+
     /**
      * This is a 2D array of UI components that provide display and manipulation
      * of the cells in the map.
      ***/
     private JMapCell[][] mapCells;
 
-    
+
     /**
      * This inner class handles mouse events in the main grid of map cells, by
      * modifying the cells based on the mouse button state and the initial edit
@@ -43,26 +43,26 @@ public class AStarApp {
          * currently in the midst of a modification operation.
          **/
         private boolean modifying;
-        
+
         /**
          * This value records whether we are making cells passable or
          * impassable.  Which it is depends on the original state of the cell
          * that the operation was started within.
          **/
         private boolean makePassable;
-        
+
         /** Initiates the modification operation. **/
         public void mousePressed(MouseEvent e)
         {
             modifying = true;
-            
+
             JMapCell cell = (JMapCell) e.getSource();
-            
+
             // If the current cell is passable then we are making them
             // impassable; if it's impassable then we are making them passable.
-            
+
             makePassable = !cell.isPassable();
-            
+
             cell.setPassable(makePassable);
         }
 
@@ -71,7 +71,7 @@ public class AStarApp {
         {
             modifying = false;
         }
-        
+
         /**
          * If the mouse has been pressed, this continues the modification
          * operation into the new cell.
@@ -90,15 +90,15 @@ public class AStarApp {
         {
             // This one we ignore.
         }
-        
+
         /** Not needed for this handler. **/
         public void mouseClicked(MouseEvent e)
         {
             // And this one too.
         }
     }
-    
-    
+
+
     /**
      * Creates a new instance of AStarApp with the specified map width and
      * height.
@@ -106,18 +106,18 @@ public class AStarApp {
     public AStarApp(int w, int h) {
         if (w <= 0)
             throw new IllegalArgumentException("w must be > 0; got " + w);
-        
+
         if (h <= 0)
             throw new IllegalArgumentException("h must be > 0; got " + h);
-        
+
         width = w;
         height = h;
-        
+
         startLoc = new Location(2, h / 2);
         finishLoc = new Location(w - 3, h / 2);
     }
-    
-    
+
+
     /**
      * Simple helper method to set up the Swing user interface.  This is called
      * from the Swing event-handler thread to be threadsafe.
@@ -132,7 +132,7 @@ public class AStarApp {
 
         // Use GridBagLayout because it actually respects the preferred size
         // specified by the components it lays out.
-        
+
         GridBagLayout gbLayout = new GridBagLayout();
         GridBagConstraints gbConstraints = new GridBagConstraints();
         gbConstraints.fill = GridBagConstraints.BOTH;
@@ -142,11 +142,11 @@ public class AStarApp {
 
         JPanel mapPanel = new JPanel(gbLayout);
         mapPanel.setBackground(Color.GRAY);
-        
+
         mapCells = new JMapCell[width][height];
-        
+
         MapCellHandler cellHandler = new MapCellHandler();
-        
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -157,21 +157,21 @@ public class AStarApp {
                 gbConstraints.gridy = y;
 
                 gbLayout.setConstraints(mapCells[x][y], gbConstraints);
-                
+
                 mapPanel.add(mapCells[x][y]);
                 mapCells[x][y].addMouseListener(cellHandler);
             }
         }
-        
+
         contentPane.add(mapPanel, BorderLayout.CENTER);
-        
+
         JButton findPathButton = new JButton("Find Path");
         findPathButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { findAndShowPath(); }
         });
-        
+
         contentPane.add(findPathButton, BorderLayout.SOUTH);
-        
+
         frame.pack();
         frame.setVisible(true);
 
@@ -179,7 +179,7 @@ public class AStarApp {
         mapCells[finishLoc.xCoord][finishLoc.yCoord].setEndpoint(true);
     }
 
-    
+
     /** Kicks off the application.  Called from the {@link #main} method. **/
     private void start()
     {
@@ -187,7 +187,7 @@ public class AStarApp {
             public void run() { initGUI(); }
         });
     }
-    
+
 
     /**
      * This helper method attempts to compute a path using the current map
@@ -204,7 +204,7 @@ public class AStarApp {
         Map2D map = new Map2D(width, height);
         map.setStart(startLoc);
         map.setFinish(finishLoc);
-        
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -217,22 +217,22 @@ public class AStarApp {
                     map.setCellValue(x, y, Integer.MAX_VALUE);
             }
         }
-        
+
         // Try to compute a path.  If one can be computed, mark all cells in the
         // path.
-        
+
         Waypoint wp = AStarPathfinder.computePath(map);
-        
+
         while (wp != null)
         {
             Location loc = wp.getLocation();
             mapCells[loc.xCoord][loc.yCoord].setPath(true);
-            
+
             wp = wp.getPrevious();
         }
     }
-    
-    
+
+
     /**
      * Entry-point for the application.  No command-line arguments are
      * recognized at this time.
@@ -240,5 +240,5 @@ public class AStarApp {
     public static void main(String[] args) {
         AStarApp app = new AStarApp(40, 30);
         app.start();
-    }   
+    }
 }

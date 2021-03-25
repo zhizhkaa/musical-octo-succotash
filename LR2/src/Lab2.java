@@ -5,7 +5,7 @@ public class Lab2 {
 	// -- Ввод координат с клавиатуры --
 	public static Point3D input() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите координаты точки: ");
+        System.out.print("Введите координаты точек: ");
         
         return new Point3D(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
     }
@@ -20,7 +20,7 @@ public class Lab2 {
         c = input();
         
         if (a.equals(b) || b.equals(c) || a.equals(c)) {
-            System.out.println("Одна из точек равна другой");
+            System.out.println("ОШИБКА: Какая-либо точка равняется другой");
             return;
         }
 		
@@ -35,7 +35,7 @@ public class Lab2 {
 		System.out.println("a.distanceTo(c) --> " + a.distanceTo(c) + "\n");
 		
 		double s = computeArea(a, b, c);
-		System.out.println("Площадь треугольника ABC: " + s);
+		System.out.println("S ABC: " + s);
 		
 		
 	}
