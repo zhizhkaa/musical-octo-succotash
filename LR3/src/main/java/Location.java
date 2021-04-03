@@ -28,6 +28,7 @@ public class Location
 
     /** Метод equals(). **/
     public boolean equals(Object a) {
+
         if(getClass() != a.getClass()) return false;
 
         Location b = (Location) a;

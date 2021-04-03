@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class JImageDisplay extends JComponent
 {
-    private BufferedImage displayImage;
+    private final BufferedImage displayImage;
 
     public JImageDisplay(int height, int width) {
         displayImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

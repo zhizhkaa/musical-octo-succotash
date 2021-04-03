@@ -7,12 +7,12 @@ public class FractalExplorer {
 
     /** Целое число «размер экрана», которое является шириной и высотой
      отображения в пикселях **/
-    private int displaySize;
+    private final int displaySize;
 
 
     /** Ссылка JImageDisplay, для обновления отображения в разных
      методах в процессе вычисления фрактала **/
-    private JImageDisplay display;
+    private final JImageDisplay display;
 
 
     /** Объект FractalGenerator. Будет использоваться ссылка на базовый
@@ -22,7 +22,7 @@ public class FractalExplorer {
 
     /** Объект Rectangle2D.Double, указывающий диапазона комплексной
      плоскости, которая выводится на экран **/
-    private Rectangle2D.Double range;
+    private final Rectangle2D.Double range;
 
 
     /** Конструктор класса **/
@@ -31,7 +31,6 @@ public class FractalExplorer {
 
         range = new Rectangle2D.Double();
         fractal = new Mandelbrot();
-
         fractal.getInitialRange(range);
         display = new JImageDisplay(displaySize, displaySize);
 
@@ -41,22 +40,50 @@ public class FractalExplorer {
     public void createAndShowGUI()
     {
         display.setLayout(new BorderLayout());
-        JFrame frame = new JFrame("Множество Мандельброта");
+        JFrame frame = new JFrame("Fractal Explorer");
 
         frame.add(display, BorderLayout.CENTER);
 
-        /** Создание кнопки reset **/
-        JButton resetButton = new JButton("Reset");
+        /** Создание кнопки "Перезапустить" **/
+        JButton resetButton = new JButton("Перезапустить");
 
         /** Создание оэкземпляра класса обработчика resetHandler для кнопки reset **/
-        resetHandler handler = new resetHandler();
+        ResetHandler handler = new ResetHandler();
         resetButton.addActionListener(handler);
 
-        /** Добавление кнопки **/
-        frame.add(resetButton, BorderLayout.SOUTH);
-
-        mouseHandler click = new mouseHandler();
+        MouseHandler click = new MouseHandler();
         display.addMouseListener(click);
+
+        /** Создание кнопки "Сохранить" **/
+        JButton saveButton = new JButton("Сохранить");
+
+        /** Создание comboBox **/
+        JComboBox comboBox = new JComboBox();
+
+        comboBox.addItem(new Mandelbrot());
+        comboBox.addItem(new Tricorn());
+        comboBox.addItem(new BurningShip());
+
+        /** Обработчик для comboBox **/
+        ButtonHandler fractalChooser = new ButtonHandler();
+        comboBox.addActionListener(fractalChooser);
+
+        /** Создание label для comboBox **/
+        JLabel labelCB = new JLabel("Фрактал:");
+
+
+        /** Создание topPanel и добавление на неё элементов **/
+        JPanel topPanel = new JPanel();
+        topPanel.add(labelCB);
+        topPanel.add(comboBox);
+        frame.add(topPanel, BorderLayout.NORTH);
+
+        /** Создание bottomPanel **/
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(saveButton);
+        bottomPanel.add(resetButton);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
+
 
         /** Операция закрытия окна **/
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,8 +102,8 @@ public class FractalExplorer {
             for(int y = 0; y < displaySize; y++)
             {
                 // Определение координат с помощью метода getCoord объекта fractal
-                double xCoord = fractal.getCoord(range.x, range.x + range.width, displaySize, x);
-                double yCoord = fractal.getCoord(range.y, range.y + range.height, displaySize, y);
+                double xCoord = FractalGenerator.getCoord(range.x, range.x + range.width, displaySize, x);
+                double yCoord = FractalGenerator.getCoord(range.y, range.y + range.height, displaySize, y);
 
                 // Вычисление количества итераций для соответсвующих координат
                 int iteration = fractal.numIterations(xCoord, yCoord);
@@ -95,12 +122,29 @@ public class FractalExplorer {
                     display.drawPixel(x, y, rgbColor);
                 }
             }
-        // Обновление JimageDisplay
+        // Обновление JImageDisplay
         display.repaint();
     }
 
+
+    private class ButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            String command = e.getActionCommand();
+
+            if (e.getSource() instanceof JComboBox) {
+
+                JComboBox mySource = (JComboBox) e.getSource();
+                fractal = (FractalGenerator) mySource.getSelectedItem();
+                fractal.getInitialRange(range);
+                drawFractal();
+
+            }
+        }
+    }
+
     /** внутренний класс для обработки событий java.awt.event.ActionListener от кнопки сброса **/
-    private class resetHandler implements ActionListener
+    private class ResetHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent event) {
             fractal.getInitialRange(range);
@@ -108,16 +152,16 @@ public class FractalExplorer {
         }
     }
 
-    private class mouseHandler extends MouseAdapter
+    private class MouseHandler extends MouseAdapter
     {
         @Override
         public void mouseClicked(MouseEvent e)
         {
             int x = e.getX();
-            double xCoord = fractal.getCoord(range.x, range.x + range.width,  displaySize, x);
+            double xCoord = FractalGenerator.getCoord(range.x, range.x + range.width,  displaySize, x);
 
             int y = e.getY();
-            double yCoord = fractal.getCoord(range.y, range.y + range.height,  displaySize, y);
+            double yCoord = FractalGenerator.getCoord(range.y, range.y + range.height,  displaySize, y);
 
             fractal.recenterAndZoomRange(range, xCoord, yCoord, 0.5);
 

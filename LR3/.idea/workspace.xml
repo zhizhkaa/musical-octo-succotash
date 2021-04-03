@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2b07814d-da1a-4e72-ab2c-27129b1f629a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/AStarState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AStarState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarApp$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarApp$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarApp$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarApp$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarApp$MapCellHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarApp$MapCellHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarPathfinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarPathfinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AStarState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AStarState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/JMapCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/JMapCell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Location.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Location.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Map2D.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Map2D.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Waypoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Waypoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LR4/src/main/java/Mandelbrot.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LR4/src/main/java/Mandelbrot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LR4/target/classes/Mandelbrot.class" beforeDir="false" afterPath="$PROJECT_DIR$/../LR4/target/classes/Mandelbrot.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1qFUnBrEB7CsAIEr05Cq2kRx5Rz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../LR4" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\xxxto\OneDrive\Рабочий стол\Stuff\4 семестр\Java\musical-octo-succotash\LR3\src\main\java" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="AStarApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AStarApp" />
+      <module name="LR3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AStarApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2b07814d-da1a-4e72-ab2c-27129b1f629a" name="Default Changelist" comment="" />
+      <created>1616674999420</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616674999420</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

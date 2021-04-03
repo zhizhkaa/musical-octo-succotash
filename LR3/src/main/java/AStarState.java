@@ -40,15 +40,17 @@ public class AStarState
      **/
     public Waypoint getMinOpenWaypoint()
     {
-        /** Returns null if there are no open waypoints **/
+        // Returns null if there are no open waypoints
         if  (opened.size() == 0) return null;
 
         Waypoint[] a = new Waypoint[opened.size()];
+        // All opened waypoints
         Waypoint[] wayPoints = opened.values().toArray(a);
 
+        // First opened waypoint is the minimum
         Waypoint minPoint = wayPoints[0];
 
-        /** For each pint in wayPoints **/
+        // For each point in wayPoints search for min
         for (Waypoint point : wayPoints) {
             if (point.getTotalCost() < minPoint.getTotalCost()) {
                 minPoint = point;
