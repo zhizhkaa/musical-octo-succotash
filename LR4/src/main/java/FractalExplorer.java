@@ -1,13 +1,19 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 public class FractalExplorer {
 
     /** Целое число «размер экрана», которое является шириной и высотой
      отображения в пикселях **/
     private final int displaySize;
+
+    /** Количество оставшихся рядов для обработки **/
+    private int remainRows;
 
 
     /** Ссылка JImageDisplay, для обновления отображения в разных
@@ -24,6 +30,9 @@ public class FractalExplorer {
      плоскости, которая выводится на экран **/
     private final Rectangle2D.Double range;
 
+    JButton resetButton = new JButton("Перезапустить");
+    JButton saveButton = new JButton("Сохранить");
+    JComboBox comboBox = new JComboBox();
 
     /** Конструктор класса **/
     public FractalExplorer(int size) {
@@ -44,33 +53,30 @@ public class FractalExplorer {
 
         frame.add(display, BorderLayout.CENTER);
 
-        /** Создание кнопки "Перезапустить" **/
-        JButton resetButton = new JButton("Перезапустить");
+
 
         /** Создание оэкземпляра класса обработчика resetHandler для кнопки reset **/
         ResetHandler handler = new ResetHandler();
         resetButton.addActionListener(handler);
 
+        /** Обработчик кликов по фракталу **/
         MouseHandler click = new MouseHandler();
         display.addMouseListener(click);
 
-        /** Создание кнопки "Сохранить" **/
-        JButton saveButton = new JButton("Сохранить");
-
-        /** Создание comboBox **/
-        JComboBox comboBox = new JComboBox();
+        /** Обработчик кнопки Сохранитьь **/
+        SaveHandler save = new SaveHandler();
+        saveButton.addActionListener(save);
 
         comboBox.addItem(new Mandelbrot());
         comboBox.addItem(new Tricorn());
         comboBox.addItem(new BurningShip());
 
         /** Обработчик для comboBox **/
-        ButtonHandler fractalChooser = new ButtonHandler();
+        ComboBoxHandler fractalChooser = new ComboBoxHandler();
         comboBox.addActionListener(fractalChooser);
 
         /** Создание label для comboBox **/
         JLabel labelCB = new JLabel("Фрактал:");
-
 
         /** Создание topPanel и добавление на неё элементов **/
         JPanel topPanel = new JPanel();
@@ -94,54 +100,26 @@ public class FractalExplorer {
         frame.setResizable(false);
     }
 
+    private void enableUI(boolean val) {
+        comboBox.setEnabled(val);
+        resetButton.setEnabled(val);
+        saveButton.setEnabled(val);
+    }
+
     /** Метод для вывода на экран  фрактала **/
     private void  drawFractal() {
+        enableUI(false);
 
-        // Метод циклически проходит через каждый пиксель (x, y)
-        for (int x = 0; x < displaySize; x++)
-            for(int y = 0; y < displaySize; y++)
-            {
-                // Определение координат с помощью метода getCoord объекта fractal
-                double xCoord = FractalGenerator.getCoord(range.x, range.x + range.width, displaySize, x);
-                double yCoord = FractalGenerator.getCoord(range.y, range.y + range.height, displaySize, y);
+        remainRows = displaySize;
 
-                // Вычисление количества итераций для соответсвующих координат
-                int iteration = fractal.numIterations(xCoord, yCoord);
-
-                // Если число итераций равно -1 установите пиксель в черный цвет
-                if (iteration == -1) {
-                    display.drawPixel(x, y, 0);
-                }
-
-                //Иначе выберите значение цвета, основанное на количестве итераций.
-                else {
-                    // Используется цветовое пространство HSV
-                    float hue = 0.7f + (float) iteration / 200f;
-                    int rgbColor = Color.HSBtoRGB(hue, 1f, 1f);
-
-                    display.drawPixel(x, y, rgbColor);
-                }
-            }
-        // Обновление JImageDisplay
-        display.repaint();
-    }
-
-
-    private class ButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-
-            String command = e.getActionCommand();
-
-            if (e.getSource() instanceof JComboBox) {
-
-                JComboBox mySource = (JComboBox) e.getSource();
-                fractal = (FractalGenerator) mySource.getSelectedItem();
-                fractal.getInitialRange(range);
-                drawFractal();
-
-            }
+        /** Loop through every row in the display */
+        for (int x = 0; x < displaySize; x++) {
+            FractalWorker drawRow = new FractalWorker(x);
+            drawRow.execute();
         }
     }
+
+    // ЛР5
 
     /** внутренний класс для обработки событий java.awt.event.ActionListener от кнопки сброса **/
     private class ResetHandler implements ActionListener
@@ -152,9 +130,53 @@ public class FractalExplorer {
         }
     }
 
+    /** Класс для обработки comboBox **/
+    private class ComboBoxHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            JComboBox mySource = (JComboBox) event.getSource();
+            fractal = (FractalGenerator) mySource.getSelectedItem();
+            fractal.getInitialRange(range);
+            drawFractal();
+        }
+    }
+
+    /** Класс для обработки кнопки "Сохранить" **/
+    private  class SaveHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            // Отвечает за сохранение файлов в png
+            JFileChooser chooser = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+            chooser.setFileFilter(filter);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            // Вывод экрана сохранения
+            int userSelection = chooser.showSaveDialog(display);
+
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                java.io.File file = chooser.getSelectedFile();
+                String file_name = file.toString();
+
+                try {
+                    BufferedImage displayImage = display.getImage();
+                    javax.imageio.ImageIO.write(displayImage, "png", file);
+                }
+
+                catch (Exception exception) {
+                    JOptionPane.showMessageDialog(
+                            display, exception.getMessage(),
+                            "Невозможно сохранить изображение", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
     private class MouseHandler extends MouseAdapter
     {
-        @Override
         public void mouseClicked(MouseEvent e)
         {
             int x = e.getX();
@@ -166,6 +188,55 @@ public class FractalExplorer {
             fractal.recenterAndZoomRange(range, xCoord, yCoord, 0.5);
 
             drawFractal();
+        }
+    }
+
+    // ЛР 6
+
+    private class FractalWorker extends SwingWorker<Object, Object> {
+        int yCoord;
+        int[] calculatedRGB;
+
+        private FractalWorker(int row) {
+            yCoord = row;
+        }
+
+        protected Object doInBackground() {
+            calculatedRGB = new int[displaySize];
+
+            for (int i = 0; i < calculatedRGB.length; i++) {
+
+                double xCoord = fractal.getCoord(range.x,
+                        range.x + range.width, displaySize, i);
+                double yCoord = fractal.getCoord(range.y,
+                        range.y + range.height, displaySize, this.yCoord);
+
+                int iteration = fractal.numIterations(xCoord, yCoord);
+
+                if (iteration == -1) {
+                    calculatedRGB[i] = 0;
+                } else {
+
+                    float hue = 0.7f + (float) iteration / 200f;
+                    int rgbColor = Color.HSBtoRGB(hue, 1f, 1f);
+
+                    calculatedRGB[i] = rgbColor;
+                }
+            }
+            return null;
+        }
+
+        protected void done()
+        {
+            for (int i = 0; i < calculatedRGB.length; i++) {
+                display.drawPixel(i, yCoord, calculatedRGB[i]);
+            }
+
+            display.repaint(0, 0, yCoord, displaySize, 1);
+            remainRows--;
+            if (remainRows == 0) {
+                enableUI(true);
+            }
         }
     }
 

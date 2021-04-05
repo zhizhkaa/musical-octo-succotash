@@ -13,6 +13,10 @@ public class JImageDisplay extends JComponent
         super.setPreferredSize(imageDimension);
     }
 
+    public BufferedImage getImage() {
+        return displayImage;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
