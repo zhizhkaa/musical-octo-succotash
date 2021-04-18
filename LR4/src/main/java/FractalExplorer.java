@@ -52,7 +52,7 @@ public class FractalExplorer {
         JFrame frame = new JFrame("Fractal Explorer");
 
         frame.add(display, BorderLayout.CENTER);
-
+    
 
 
         /** Создание оэкземпляра класса обработчика resetHandler для кнопки reset **/
@@ -112,7 +112,6 @@ public class FractalExplorer {
 
         remainRows = displaySize;
 
-        /** Loop through every row in the display */
         for (int x = 0; x < displaySize; x++) {
             FractalWorker drawRow = new FractalWorker(x);
             drawRow.execute();
@@ -135,8 +134,8 @@ public class FractalExplorer {
     {
         public void actionPerformed(ActionEvent event)
         {
-            JComboBox mySource = (JComboBox) event.getSource();
-            fractal = (FractalGenerator) mySource.getSelectedItem();
+            JComboBox comboBox = (JComboBox) event.getSource();
+            fractal = (FractalGenerator) comboBox.getSelectedItem();
             fractal.getInitialRange(range);
             drawFractal();
         }
@@ -156,7 +155,6 @@ public class FractalExplorer {
             // Вывод экрана сохранения
             int userSelection = chooser.showSaveDialog(display);
 
-
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 java.io.File file = chooser.getSelectedFile();
                 String file_name = file.toString();
@@ -165,7 +163,6 @@ public class FractalExplorer {
                     BufferedImage displayImage = display.getImage();
                     javax.imageio.ImageIO.write(displayImage, "png", file);
                 }
-
                 catch (Exception exception) {
                     JOptionPane.showMessageDialog(
                             display, exception.getMessage(),
@@ -191,7 +188,7 @@ public class FractalExplorer {
         }
     }
 
-    // ЛР 6
+    //TODO: ЛР 6
 
     private class FractalWorker extends SwingWorker<Object, Object> {
         int yCoord;
@@ -213,9 +210,9 @@ public class FractalExplorer {
 
                 int iteration = fractal.numIterations(xCoord, yCoord);
 
-                if (iteration == -1) {
+                if (iteration == -1)
                     calculatedRGB[i] = 0;
-                } else {
+                else {
 
                     float hue = 0.7f + (float) iteration / 200f;
                     int rgbColor = Color.HSBtoRGB(hue, 1f, 1f);
