@@ -1,11 +1,10 @@
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 class Task5 {
 
     public static void println(Object line) { System.out.println(line); }
 
-    // v1 - 2 - v3 - 4 - 5 - 6 - 7 - 8 - 9 - 10
+    // v1 - 2 - v3 - v4 - v5 - v6 - v7 - 8 - 9 - 10
 
     public static void main(String[] args) {
         println("sameLetterPattern(ABAB, CDCD) --> " + sameLetterPattern("ABAB", "CDCD"));
@@ -13,7 +12,7 @@ class Task5 {
         println("sameLetterPattern(WWAA, AAYY) --> " + sameLetterPattern("WWAA", "AAYY"));
         println("sameLetterPattern(ABCDEF, CDEFGH) --> " + sameLetterPattern("ABCDEF", "CDEFGH") + "\n");
 
-        println("Павук не сделан");
+        println("Паук не сделан\n");
 
         println("digitsCount(3234) --> " + digitsCount(3234));
         println("digitsCount(3) --> " + digitsCount(3));
@@ -21,13 +20,39 @@ class Task5 {
         println("digitsCount(12345678910) --> " + digitsCount(1234567) + "\n");
 
         String[] words = {"cat", "create", "sat"};
-        println(totalPoints(words, "caster"));
-
+        println("totalPoints(" + Arrays.toString(words)+ ", caster) --> " + totalPoints(words, "caster"));
         String[] words1 = {"trance", "recant"};
-        println(totalPoints(words1, "recant"));
+        println("totalPoints(" + Arrays.toString(words1)+ ", recant) --> " + totalPoints(words1, "recant"));
+        String[] words2 = {"dote", "dotes", "toes", "set", "dot", "dots", "sted"};;
+        println("totalPoints(" + Arrays.toString(words2)+ ", tossed) --> " + totalPoints(words2, "tossed") + "\n");
 
-        String[] words2 = {"dote", "dotes", "toes", "set", "dot", "dots", "sted"};
-        println(totalPoints(words2, "tossed") + "\n");
+        int[] arr1 = {1, 2, 3, 5, 6, 7, 8, 9};
+        println("longestRun([1, 2, 3, 5, 6, 7, 8, 9]) --> " + longestRun(arr1));
+        int[] arr2 = {1, 2, 3, 10, 11, 15};
+        println("longestRun([1, 2, 3, 10, 11, 15]) --> " + longestRun(arr2));
+        int[] arr3 = {5, 4, 2, 1};
+        println("longestRun([5, 4, 2, 1]) --> " + longestRun(arr3));
+        int[] arr4 = {3, 5, 7, 10, 15};
+        println("longestRun([3, 5, 7, 10, 15]) --> " + longestRun(arr4) + "\n");
+
+        String[] per1 = {"95%", "83%", "90%", "87%", "88%", "93%"};
+        println("takeDownAverage(" + Arrays.toString(per1) + ") --> " + takeDownAverage(per1) + "\n");
+
+
+
+
+
+        println("rearrange(Tesh3 th5e 1I lov2e way6 she7 j4ust i8s.) --> " + rearrange("Tesh3 th5e 1I lov2e way6 she7 j4ust i8s.") + "\n");
+
+
+
+        println("maxPossible(9328, 456) --> " + maxPossible(9328, 456));
+        println("maxPossible(523, 76) --> " + maxPossible(523, 76));
+        println("maxPossible(9132, 5564) --> " + maxPossible(9132, 5564));
+        println("maxPossible(8372, 91255) --> " + maxPossible(8372, 91255));    
+
+
+
     }
 
     // 1. Создайте функцию, которая возвращает true, если две строки имеют один и тот же буквенный шаблон, и false в противном случае.
@@ -104,13 +129,12 @@ class Task5 {
     // 6-буквенные слова-это 4 очка + 50 пт бонуса (за расшифровку слова)
     // Помните, что недопустимые слова (слова, которые не могут быть сформированы из 6-буквенных расшифрованных слов) считаются 0 очками.
 
-    public static int totalPoints(String[] words, String word) 
-    {
+    public static int totalPoints(String[] words, String word) {
         int points = 0;
 
         for (int i = 0; i < words.length; i++)
         {
-            if(containsHelper(word, words[i]))
+            if(cont(word, words[i]))
             {
                 int len = words[i].length();
                 points += len - 2;
@@ -122,8 +146,7 @@ class Task5 {
     }
 
     // Метод проверки
-    private static boolean containsHelper(String wordP, String word) {
-
+    private static boolean cont(String wordP, String word) {
         HashMap<Character, Integer> pattern = new HashMap();
 
         for (int i = 0; i < wordP.length(); i++) {
@@ -149,6 +172,136 @@ class Task5 {
         return true;
     }
 
+    // 5. Последовательный прогон-это список соседних последовательных целых чисел. Этот список может быть как увеличивающимся, 
+    // так и уменьшающимся. Создайте функцию, которая принимает массив чисел и возвращает длину самого длинного последовательного запуска. 
 
+    public static int longestRun(int[] arr) {
+        Arrays.sort(arr);
+        int max = 0;
+        int counter = 1;
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] == arr[i + 1] - 1)
+                counter += 1;
+            else
+                counter = 1;
+            if (counter > max)
+                max = counter;
+        }
+        return max;
+    }
+
+    // 6. Какой процент вы можете набрать на тесте, который в одиночку
+    // снижает средний балл по классу на 5%? Учитывая массив оценок ваших одноклассников, 
+    // создайте функцию, которая возвращает ответ. Округлите до ближайшего процента.
+
+    public static int takeDownAverage(String[] arr) {
+        int res = 0;
+        int len = arr.length;
+
+        for(int i = 0; i < len; i++) 
+        {
+            arr[i] = arr[i].substring(0, arr[i].length() - 1);  // Избаавляемся от знака процента
+            res = res + Integer.parseInt(arr[i]);
+        }
+        res = res / len - 5 * (len + 1);
+        return res;
+    }
+
+    // 7. Учитывая предложение с числами, представляющими расположение слова, 
+    // встроенного в каждое слово, верните отсортированное предложение.
+
+    public static String rearrange(String str) {
+        String[] words = str.split(" ");
+        String[] result = new String[words.length];
+
+        for (String word : words) {
+            for (int i = 0; i < word.length(); i++) {
+                if (Character.isDigit(word.charAt(i))) 
+                {
+                    result[word.charAt(i) - 49] = word.substring(0, i) + word.substring(i+1);
+                    break;
+                }
+            }
+        }
+        return String.join(" ", result);
+    }
+    
+    // 8. Напишите функцию, которая делает первое число как можно больше, меняя его цифры на цифры во втором числе
+
+    public static Integer[] toIntegerArray(int num) {
+        ArrayList<Integer> result = new ArrayList<>();
+        while (num != 0)
+        {
+            result.add(num % 10);
+            num /= 10;
+        }
+        return result.toArray(new Integer[result.size()]);
+    }
+
+    public static int toInt(Integer[] arr) {
+        int num = 0;
+        int x = 1;
+        for (int i : arr) 
+        {
+            num += i * x;
+            x *= 10;
+        }
+        return num;
+    }
+
+    public static int maxPossible(int a, int b) {
+        Integer[] numMax = toIntegerArray(a);
+        Integer[] numAdd = toIntegerArray(b);
+        Arrays.sort(numAdd, Collections.reverseOrder());
+
+        int j = 0;  // Почему-то не работает с обычным вложеным циклом
+        for (int i = numMax.length - 1; i >= 0; i--) 
+            {
+                if (numMax[i] < numAdd[j]) 
+                {
+                    numMax[i] = numAdd[j];
+                    j++;
+                }
+                if (j == numAdd.length)
+                    break;
+            } 
+
+        return toInt(numMax);
+    }
+
+    /** 
+    *    9. В этой задаче цель состоит в том, чтобы вычислить, сколько времени сейчас в двух разных городах. 
+    *    Вам дается строка cityA и связанная с ней строка timestamp (time in cityA) с датой, отформатированной в полной нотации США, как в этом примере:
+    *        "July 21, 1983 23:01"
+    *    Вы должны вернуть новую метку времени с датой и соответствующим временем в cityB, отформатированную как в этом примере:
+    *        "1983-7-22 23:01"
+    *    Список данных городов и их смещения по Гринвичу (среднее время по Гринвичу) приведены в таблице ниже.
+    *           GMT	    City
+    *        - 08:00	Los Angeles
+    *        - 05:00	New York
+    *        - 04:30	Caracas
+    *        - 03:00	Buenos Aires
+    *          00:00	London
+    *        + 01:00	Rome
+    *        + 03:00	Moscow
+    *        + 03:30	Tehran
+    *        + 05:30	New Delhi
+    *        + 08:00	Beijing
+    *        + 10:00	Canberra 
+    **/
+
+    // public static String timeDifference(String cityA, String timestamp)
+        
+    
+     public static boolean isNew(int num) {
+        Integer[] arr = toIntegerArray(num);
+
+        for (int i = 0; i < arr.length; i++)
+            if (num[i] < num[num.length - 1])
+                return false;
+
+        return true;
+        
+    }
     
 }
