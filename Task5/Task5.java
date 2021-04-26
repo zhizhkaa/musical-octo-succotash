@@ -4,7 +4,7 @@ class Task5 {
 
     public static void println(Object line) { System.out.println(line); }
 
-    // v1 - 2 - v3 - v4 - v5 - v6 - v7 - 8 - 9 - 10
+    // v1 - 2 - v3 - v4 - v5 - v6 - v7 - v8 - 9 - v10
 
     public static void main(String[] args) {
         println("sameLetterPattern(ABAB, CDCD) --> " + sameLetterPattern("ABAB", "CDCD"));
@@ -12,7 +12,10 @@ class Task5 {
         println("sameLetterPattern(WWAA, AAYY) --> " + sameLetterPattern("WWAA", "AAYY"));
         println("sameLetterPattern(ABCDEF, CDEFGH) --> " + sameLetterPattern("ABCDEF", "CDEFGH") + "\n");
 
-        println("Паук не сделан\n");
+        //println("spiderVsFly не сделан\n");
+        println("spiderVsFly(H3, E2) --> " + spiderVsFly("H3", "E2"));
+        println("spiderVsFly(A4, B2) --> " + spiderVsFly("A4", "B2"));
+        println("spiderVsFly(A4, C2) --> " + spiderVsFly("A4", "C2") + "\n");
 
         println("digitsCount(3234) --> " + digitsCount(3234));
         println("digitsCount(3) --> " + digitsCount(3));
@@ -49,9 +52,9 @@ class Task5 {
         println("maxPossible(9328, 456) --> " + maxPossible(9328, 456));
         println("maxPossible(523, 76) --> " + maxPossible(523, 76));
         println("maxPossible(9132, 5564) --> " + maxPossible(9132, 5564));
-        println("maxPossible(8372, 91255) --> " + maxPossible(8372, 91255));    
+        println("maxPossible(8372, 91255) --> " + maxPossible(8372, 91255) + '\n');    
 
-
+        println("Города тоже не сделаны\n");
 
     }
 
@@ -108,7 +111,109 @@ class Task5 {
 
     public static String spiderVsFly(String spider, String fly) 
     {
-        return "A";
+        Spider spdr = new Spider(spider);
+        spdr.goTo(fly);
+
+        return spdr.getPath();
+    }
+
+    private static class Spider 
+    {
+        // Итоговый путь
+        private final StringBuilder path;
+
+        // Массив радиалов
+        private final String[] radials = {"A", "B", "C", "D", "E", "F", "G", "H"};
+
+        // Координаты паука
+        private int radial;
+        private int ring;
+
+        // Конструктор
+        public Spider(String position) {
+            String[] arr = position.split("");
+            this.radial = toIndex(arr[0]);
+            this.ring = Integer.parseInt(arr[1]);
+
+            path = new StringBuilder();
+            path.append(radials[radial] + ring);
+        }
+
+        // Возвращает индекс радиала: toIndex("A") --> 0
+        public int toIndex(String str) {    
+            int i;
+            for(i = 0; i < 8; i++)
+                if(radials[i].equals(str)) 
+                    break;
+            return i;   
+        }
+        
+        // Обновляет итоговый путь паука
+        public void updatePath() { path.append("-" + radials[radial] + ring); }
+
+        // Возвращает итоговый путь
+        public String getPath() { return path.toString(); }
+
+        // Метод смещающий паука на кольцо target
+        public void goToRing(int target) {
+            int dir = (int) Math.signum(target - ring);
+
+            while (ring != target) {
+                ring += dir;
+                if (ring == 0)
+                    radial = 0;
+                updatePath();
+            }
+        }
+
+        // метод смещающий паука на радиал target
+        public void goToRadial(int target) {
+            int dir = (int) Math.signum(target - radial);
+
+            if (Math.abs(radial - ring) > 4)
+                dir *= -1;
+
+            while (radial != target) {
+                radial = Math.floorMod(radial + dir, 8);
+                updatePath();
+            }
+        }
+
+        public void goTo(String pos) {
+            String[] arr = pos.split("");
+            int rad = toIndex(arr[0]);
+            int rng = Integer.parseInt(arr[1]);
+
+            int radDistance = Math.abs(radial - rad);
+            radDistance = radDistance > 4 ? 8 - radDistance : radDistance;
+
+            // если паук находится на радиале А, то он просто меняет радиал на нужный ему, т.е радиал мухи
+            if (ring == 0) {
+                radial = rad;
+                goToRing(rad);
+            }
+
+            // если расстояние в радиалах больше двух то паук идёт через А0
+            else if (radDistance > 2) {
+                goToRing(0);
+                radial = rad;
+                goToRing(rng);
+            }
+
+
+            else {
+                // Сменить радиал, а затем кольцо
+                if (ring < rng) {
+                    goToRadial(rad);
+                    goToRing(rng);
+                }
+                // Сменить кольцо, а затем радиал
+                else {
+                    goToRing(rng);
+                    goToRadial(rad);
+                }
+            }
+        }
     }
 
     // 3. Создайте функцию, которая будет рекурсивно подсчитывать количество цифр числа. 
@@ -252,6 +357,7 @@ class Task5 {
     public static int maxPossible(int a, int b) {
         Integer[] numMax = toIntegerArray(a);
         Integer[] numAdd = toIntegerArray(b);
+
         Arrays.sort(numAdd, Collections.reverseOrder());
 
         int j = 0;  // Почему-то не работает с обычным вложеным циклом
@@ -292,16 +398,5 @@ class Task5 {
 
     // public static String timeDifference(String cityA, String timestamp)
         
-    
-     public static boolean isNew(int num) {
-        Integer[] arr = toIntegerArray(num);
-
-        for (int i = 0; i < arr.length; i++)
-            if (num[i] < num[num.length - 1])
-                return false;
-
-        return true;
-        
-    }
     
 }
