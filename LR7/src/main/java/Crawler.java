@@ -1,15 +1,15 @@
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.LinkedList;
 
 public class Crawler
 {
     // Список посещенных сайтов
-    LinkedList<URLDepthPair> visitedSites = new LinkedList<>();
+    private static LinkedList<URLDepthPair> sites = new LinkedList<>();
     // Списко необработанных сайтов
-    LinkedList<URLDepthPair> sites = new LinkedList<>();
-
+    private static LinkedList<URLDepthPair> pool = new LinkedList<>();
     // Глубина, по умолчанию 0
     private int depth = 0;
 
@@ -19,61 +19,61 @@ public class Crawler
         sites.add(new URLDepthPair(url, 0));
     }
 
+    public void run() throws IOException {
+        while (pool.size() > 0)
+            parseLink(pool.pop());
 
-    public void process(URLDepthPair pair) throws IOException
-    {
-        visitedSites.push(pair);                                       // Добавляем новый сайт в список sites
-        if (pair.getDepth() >= depth)                                  // Если его глубина максимальна то не извлекаем сайт
-            return;
+        for (URLDepthPair pair : sites)
+            System.out.println(pair.toString());
 
-        URL url = new URL(pair.getURL());                              // Объект класса URl Для хранения ссылок
-        URLConnection connection =  url.openConnection();              // Открываем соединение с сайтом
+    }
 
-        Scanner scan = new Scanner(connection.getInputStream());       // Создаём новый сканер для поиска ссылок
-        while (scan.findWithinHorizon(LINK_REGEX, 0) != null)   // Пока сканер может найти новые ссылки
+    public void parseLink(URLDepthPair site) throws IOException {
+        sites.add(site);
+
+        Socket socket = new Socket();
+        socket.setSoTimeout(1000);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String line;
+
+        while ((line = in.readLine()) != "")
         {
-            String newURL = scan.match().group(2);
-            if (newURL.startsWith("/"))             // Если новая ссылка это подсайт
-                newURL = pair.getURL() + newURL;        // То конкатинируем ее c родительской url
-            else if (!newURL.startsWith("http"))    // Если новая ссылка это сайт с протоколом https
-                continue;                               // все ниже не выполняется
+            System.out.println("line");
+            while (line.contains("<a href=" + '"' + "http://")) {
+                StringBuilder newURL = new StringBuilder();
+                int i = line.indexOf("http://");
 
-            URLDepthPair newLink = new URLDepthPair(newURL, pair.getDepth() + 1);   // Создаём новую пару: ссылка + (глубина + 1)
-            sites.add(newLink);    // Добавляем пару в список НЕпосещённых сайтов
+                while (line.charAt(i) != '"') {
+                    newURL.append(line.charAt(i));
+                    i++;
+                }
+
+                if (!newURL.toString().isEmpty()) {
+                    line = line.substring(i);
+                }
+
+                URLDepthPair newPair = new URLDepthPair(newURL.toString(), site.getDepth() + 1);
+                if (site.getDepth() > newPair.getDepth())
+                    pool.add(newPair);
+            }
         }
-    }
-    // Регулярное выражение для ссылок
-    public static Pattern LINK_REGEX = Pattern.compile(
-            "<a\\s+(?:[^>]*?\\s+)?href=([\"'])(.*?)\\1");
+        socket.close();
 
-    // Метод для Ползания
-    public void run() throws IOException
-    {
-        // Пока в списке непосещённых сайтов что-нибудь есть
-        while (sites.size() > 0)
-            process(sites.pop());
-
-        // Вывод всех посещённых сайтов
-        for (URLDepthPair site: visitedSites)
-            System.out.println(site);
     }
+
 
     // Программа должна принимать в командной строке два параметра:
     // 1) Строку, которая представляет собой URL-адрес, с которого можно начать просмотр страницы.
     // 2) Положительное целое число, которое является максимальной глубиной поиска
 
     public static void main(String[] args) throws IOException {
-        // Если введено меньше или больше двух аргументов
-        if (args.length != 2) {
-            System.out.println("usage: java Crawler <URL><depth>");
-            return;
-        }
-
-        // 0 аргумент - URL; 1 - глубина поиска
         String url = args[0];
-        int depth = Integer.parseInt(args[1]);
+        int depth = 0;
 
-        // Сканирование
+        depth = Integer.parseInt(args[1]);
+
         Crawler crawler = new Crawler(url, depth);
         crawler.run();
     }

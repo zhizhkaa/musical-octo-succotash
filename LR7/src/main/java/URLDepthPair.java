@@ -5,9 +5,9 @@ public class URLDepthPair
     private int depth;
 
     // Конструктор
-    public URLDepthPair(String url_, int depth_) {
-        url = url_;
-        depth = depth_;
+    public URLDepthPair(String url, int depth) {
+        this.url = url;
+        this.depth = depth;
     }
 
     public String getURL() {
