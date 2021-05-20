@@ -1,8 +1,9 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
+import java.net.URL;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Crawler
 {
@@ -12,11 +13,13 @@ public class Crawler
     private static LinkedList<URLDepthPair> pool = new LinkedList<>();
     // Глубина, по умолчанию 0
     private int depth = 0;
+    Pattern URLpattern = Pattern.compile("(href=\"http|href=\\\"https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?"
+    );
 
     // Конструктор класса
     public Crawler(String url, int depth_) {
         depth = depth_;
-        sites.add(new URLDepthPair(url, 0));
+        pool.add(new URLDepthPair(url, 0));
     }
 
     public void run() throws IOException {
@@ -29,38 +32,30 @@ public class Crawler
     }
 
     public void parseLink(URLDepthPair site) throws IOException {
+        if (site.getDepth() > depth)
+            return;
+
         sites.add(site);
+        System.out.println(sites);
+        URL url = new URL(site.getURL());
+        Socket socket = new Socket(url.getHost(), 80);
+        socket.setSoTimeout(10);
 
-        Socket socket = new Socket();
-        socket.setSoTimeout(1000);
+        InputStream input = socket.getInputStream();
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
         String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+            Matcher matcher = URLpattern.matcher(line);
+            while (matcher.find()) {
+                String link = line.substring(matcher.start() + 6, matcher.end());
 
-        while ((line = in.readLine()) != "")
-        {
-            System.out.println("line");
-            while (line.contains("<a href=" + '"' + "http://")) {
-                StringBuilder newURL = new StringBuilder();
-                int i = line.indexOf("http://");
-
-                while (line.charAt(i) != '"') {
-                    newURL.append(line.charAt(i));
-                    i++;
-                }
-
-                if (!newURL.toString().isEmpty()) {
-                    line = line.substring(i);
-                }
-
-                URLDepthPair newPair = new URLDepthPair(newURL.toString(), site.getDepth() + 1);
-                if (site.getDepth() > newPair.getDepth())
-                    pool.add(newPair);
+                pool.add(new URLDepthPair(link, depth));
             }
         }
         socket.close();
-
     }
 
 
@@ -69,12 +64,8 @@ public class Crawler
     // 2) Положительное целое число, которое является максимальной глубиной поиска
 
     public static void main(String[] args) throws IOException {
-        String url = args[0];
-        int depth = 0;
 
-        depth = Integer.parseInt(args[1]);
-
-        Crawler crawler = new Crawler(url, depth);
-        crawler.run();
+        Crawler parser = new Crawler(args[0], Integer.parseInt(args[1]));
+        parser.run();
     }
 }
