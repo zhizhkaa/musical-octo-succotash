@@ -1,3 +1,6 @@
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class URLDepthPair
 {
     // Программа должна хранить URL-адрес в виде строки вместе с его глубиной
@@ -18,6 +21,10 @@ public class URLDepthPair
         return depth;
     }
 
+    public String getDocPath() throws MalformedURLException {
+        URL u = new URL(this.getURL());
+        return u.getPath();
+    }
 
     public String toString() {
         return "URL: " + '"' + url + '"' +  "; depth: " + depth + ';';
