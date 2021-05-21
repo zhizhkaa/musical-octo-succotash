@@ -1,3 +1,8 @@
+import java.lang.reflect.Array;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 class Task5 {
@@ -54,7 +59,7 @@ class Task5 {
         println("maxPossible(9132, 5564) --> " + maxPossible(9132, 5564));
         println("maxPossible(8372, 91255) --> " + maxPossible(8372, 91255) + '\n');    
 
-        println("Города тоже не сделаны\n");
+        println("timeDifference(Los Angeles, April 1, 2011 23:23, Canberra) --> " + timeDifference("Los Angeles", "April 1, 2011 23:23", "Canberra") + "\n");
 
     }
 
@@ -97,7 +102,7 @@ class Task5 {
                 }
                 bPattern += bHash.get(keyB);
             }
-
+            println("a: " + aPattern + " b: " + bPattern);
             return aPattern.equals(bPattern);
         }
     }
@@ -202,12 +207,10 @@ class Task5 {
 
 
             else {
-                // Сменить радиал, а затем кольцо
                 if (ring < rng) {
                     goToRadial(rad);
                     goToRing(rng);
                 }
-                // Сменить кольцо, а затем радиал
                 else {
                     goToRing(rng);
                     goToRadial(rad);
@@ -251,6 +254,12 @@ class Task5 {
     }
 
     // Метод проверки
+    /*  Для любого символа, который появляется во второй строке, количество раз, когда он появляется во второй строке, 
+        не больше, чем количество раз, когда он появляется в первой строке.
+
+        Один из эффективных способов решения этой проблемы - использовать hashmap для хранения количества символов первой строки, 
+        а затем перебирать символы во второй строке, чтобы проверить, не больше ли их общее количество, 
+        чем в первой строке. */
     private static boolean cont(String wordP, String word) {
         HashMap<Character, Integer> pattern = new HashMap();
 
@@ -269,7 +278,7 @@ class Task5 {
                 int count = pattern.get(key);
                 
                 if (count > 0) 
-                    pattern.put(key, --count);
+                    pattern.put(key, count--);
                 else 
                     return false;
             }
@@ -396,7 +405,75 @@ class Task5 {
     *        + 10:00	Canberra 
     **/
 
-    // public static String timeDifference(String cityA, String timestamp)
-        
+    private static Map<String, ZoneOffset> offsets = new HashMap<String, ZoneOffset>() {{
+        put("Los Angeles",  ZoneOffset.of("-08:00"));
+        put("New York",     ZoneOffset.of("-05:00"));
+        put("Caracas",      ZoneOffset.of("-04:30"));
+        put("Buenos Aires", ZoneOffset.of("-03:00"));
+        put("London",       ZoneOffset.of("+00:00"));
+        put("Rome",         ZoneOffset.of("+01:00"));
+        put("Moscow",       ZoneOffset.of("+03:00"));
+        put("Tehrah",       ZoneOffset.of("+03:30"));
+        put("New Delhi",    ZoneOffset.of("+05:30"));
+        put("Beijing",      ZoneOffset.of("+08:00"));
+        put("Canberra",     ZoneOffset.of("+10:00"));
+    }};
     
+    public static String timeDifference(String cityA, String time, String cityB) {
+        String[] parsed = time.split("(,\\s|:|\\s)");
+        println(Arrays.toString(parsed));
+        int[] values = new int[parsed.length];
+        // Преобразование названия месяца
+        switch(parsed[0]) {
+            case "January":     values[0] = 1;  break;
+            case "February":    values[0] = 2;  break;
+            case "March":       values[0] = 3;  break;
+            case "April":       values[0] = 4;  break;
+            case "May":         values[0] = 5;  break;
+            case "June":        values[0] = 6;  break;
+            case "July":        values[0] = 7;  break;
+            case "August":      values[0] = 8;  break;
+            case "September":   values[0] = 9;  break;
+            case "October":     values[0] = 10; break;
+            case "November":    values[0] = 11; break;
+            case "December":    values[0] = 12; break;
+        }
+        // Преобразование остальных значений даты
+        for (int i = 1; i < parsed.length; i++) {
+            values[i] = Integer.parseInt(parsed[i]);
+        }
+        
+        ZoneId timeZoneId = offsets.get(cityA);
+        ZoneId newZoneId = offsets.get(cityB);
+        ZonedDateTime date = ZonedDateTime.of(values[2], values[0], values[1], values[3], values[4], 0, 0, timeZoneId);
+
+        ZonedDateTime newDate = date.withZoneSameInstant(newZoneId);
+        
+        return DateTimeFormatter.ofPattern("yyyy-M-d HH:mm").format(newDate);
+    }
+        
+    public static boolean isNew(int num) {
+        int size = digitsCount(num);
+        int[] digits = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            digits[i] = num % 10;
+            num = num / 10;
+        }
+
+        boolean fMax = true; 
+        int max = digits[size - 1];
+        if (size > 1) {
+            for (int i = size-2 ; i >= 0; i--) {
+                if (digits[i] >= max) {
+                    max = digits[i];
+                    fMax = false;
+                } 
+                else if (digits[i] != 0 || !fMax) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
